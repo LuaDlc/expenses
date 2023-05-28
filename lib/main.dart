@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+void main() => runApp(const Expenses());
+
 class Expenses extends StatelessWidget {
   const Expenses({Key? key}) : super(key: key);
 
@@ -18,8 +20,20 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Despesas Pessoais'),
       ),
-      body: const Center(
-        child: Text('Versao Inicial'),
+      body: Column(
+        children: const <Widget>[
+          SizedBox(
+            width: double.infinity,
+            child: Card(
+              color: Colors.blue,
+              child: Text('Grafico'),
+              elevation: 5,
+            ),
+          ),
+          Card(
+            child: Text('Lista de Transaçoes'),
+          ),
+        ],
       ),
     );
   }
