@@ -22,6 +22,12 @@ class MyHomePage extends StatelessWidget {
       //resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Despesas Pessoais'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {},
+          )
+        ],
       ),
       body: const SingleChildScrollView(
         child: Column(
@@ -38,6 +44,12 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed:
+              () {}), //vai chamar o modal/form pra permitir add transacao
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.centerDocked, //centralizad o botao +
     );
   }
 }

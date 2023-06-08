@@ -6,6 +6,16 @@ class TransactionForm extends StatelessWidget {
 
   final void Function(String, double) onSubmit;
 
+  _submitForm() {
+    final title = titleController.text;
+    final value = double.tryParse(valueController.text) ?? 0.0;
+    //validacao para nao permitir caixa vazia ou sem valores validos
+    if (title.isEmpty || value <= 0) {
+      return;
+    }
+    onSubmit(title, value);
+  }
+
   TransactionForm(this.onSubmit, {Key? key}) : super(key: key);
 //componente parao formulario de transacoes
   @override
@@ -22,16 +32,19 @@ class TransactionForm extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Titulo'),
               ),
               TextField(
+                smartQuotesType:
+                    SmartQuotesType.enabled, //permite apenas numerosf
+                //onsbmitted vai chamar a funcao pra adicionar os dados caso o usuario complete as info, direto no teclado
+                onSubmitted: (_) =>
+                    onSubmit, //(_)-> vazio pois onsubmit nao recebe parametro
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 controller: valueController,
                 decoration: const InputDecoration(labelText: 'Valor (R\$)'),
               ),
               TextButton(
                 style: TextButton.styleFrom(backgroundColor: Colors.amber),
-                onPressed: () {
-                  final title = titleController.text;
-                  final value = double.tryParse(valueController.text) ?? 0.0;
-                  onSubmit(title, value);
-                },
+                onPressed: _submitForm,
                 child: const Text(
                   'Nova Transacao',
                   style: TextStyle(color: Colors.purple),
