@@ -1,7 +1,5 @@
-import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_user.dart';
-import 'package:expenses/components/transactions_list.dart';
-import 'package:expenses/models/transactions.dart';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(const Expenses());
