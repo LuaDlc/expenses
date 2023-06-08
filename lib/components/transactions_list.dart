@@ -6,7 +6,7 @@ import '../models/transactions.dart';
 
 class TransactionsList extends StatelessWidget {
   final List<Transactions>? transactions;
-
+//componente para exibiicao das transacoes com dados
   const TransactionsList(
     this.transactions, {
     Key? key,

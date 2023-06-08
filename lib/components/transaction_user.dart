@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/transactions.dart';
 
+//componente para a lista de transacoes do usuario
 class TransactionUser extends StatefulWidget {
   const TransactionUser({super.key});
 
