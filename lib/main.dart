@@ -1,6 +1,11 @@
-import 'package:expenses/components/transaction_user.dart';
+import 'dart:math';
+
+import 'package:expenses/components/transaction_form.dart';
 
 import 'package:flutter/material.dart';
+
+import 'components/transactions_list.dart';
+import 'models/transactions.dart';
 
 void main() => runApp(const Expenses());
 
@@ -13,8 +18,52 @@ class Expenses extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final _transactions = [
+    Transactions(
+      id: 't1',
+      title: 'tenis novo',
+      value: 539.00,
+      date: DateTime.now(),
+    ),
+    Transactions(
+      id: 't2',
+      title: 'luz',
+      value: 238.00,
+      date: DateTime.now(),
+    ),
+  ];
+
+  _addTransaction(String title, double value) {
+    final newTransaction = Transactions(
+      id: Random().nextDouble().toString(),
+      title:
+          title, //title: é o atributo e title é parametro da chamada da funcao _addTransaction
+      value: value,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _transactions.add(newTransaction);
+    });
+
+    Navigator.of(context).pop();
+  }
+
+  _openTransactionFormModal(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return TransactionForm((_addTransaction));
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,29 +74,29 @@ class MyHomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () => _openTransactionFormModal(context),
           )
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               child: Card(
                 color: Colors.blue,
                 elevation: 5,
                 child: Text('Grafico'),
               ),
             ),
-            TransactionUser() //apenas um componente pra termos a lista e o form exibidos na tela
+            TransactionsList(_transactions),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed:
-              () {}), //vai chamar o modal/form pra permitir add transacao
+          onPressed: () => _openTransactionFormModal(
+              context)), //vai chamar o modal/form pra permitir add transacao
       floatingActionButtonLocation:
           FloatingActionButtonLocation.centerDocked, //centralizad o botao +
     );
