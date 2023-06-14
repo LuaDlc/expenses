@@ -14,7 +14,30 @@ class Expenses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: MyHomePage());
+    final ThemeData tema = ThemeData();
+
+    return MaterialApp(
+      home: const MyHomePage(),
+      theme: tema.copyWith(
+          colorScheme: tema.colorScheme.copyWith(
+            primary: Colors.purple,
+            secondary: Colors.amber,
+          ),
+          textTheme: tema.textTheme.copyWith(
+            titleLarge: const TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ))),
+    );
   }
 }
 
@@ -84,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const SizedBox(
               child: Card(
-                color: Colors.blue,
+                color: Colors.blue, //pega a cor primaria/padrao do app definida
                 elevation: 5,
                 child: Text('Grafico'),
               ),

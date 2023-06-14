@@ -30,8 +30,9 @@ class TransactionsList extends StatelessWidget {
                         horizontal: 15.0, vertical: 10.0),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: const Color.fromARGB(255, 137, 14, 159),
-                          width: 2.0),
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2.0,
+                      ),
                     ),
                     padding: const EdgeInsets.all(10),
                     child: Text(
@@ -53,9 +54,9 @@ class TransactionsList extends StatelessWidget {
                       ),
                       Text(
                         DateFormat('dd/MM/yyyy').format(tr.date!),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
-                          color: Color.fromARGB(255, 118, 116, 116),
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ), //to string pois text recebe tipo string
                     ],
