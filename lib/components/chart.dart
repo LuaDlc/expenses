@@ -1,3 +1,4 @@
+import 'package:expenses/components/chart_bar.dart';
 import 'package:expenses/models/transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -37,11 +38,21 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    groupedTransactions;
+    return Card(
       elevation: 6, //para destaque
-      margin: EdgeInsets.all(20), //margin para destaque de cada componente
+      margin:
+          const EdgeInsets.all(20), //margin para destaque de cada componente
       child: Row(
-        children: <Widget>[],
+        children: groupedTransactions.map((tr) {
+          //pega alista q é um map de chave e valor, e tr de transacao pega dia e valor
+          return ChartBar(
+            //retorna o componente com o valor, dia e a porcentagem
+            label: tr['day'] as String,
+            value: tr['value'] as double,
+            percent: 0,
+          );
+        }).toList(),
       ),
     );
   }

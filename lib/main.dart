@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 
 import 'package:flutter/material.dart';
@@ -50,19 +51,38 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transactions> _transactions = [
-    // Transactions(
-    //   id: 't1',
-    //   title: 'tenis novo',
-    //   value: 539.00,
-    //   date: DateTime.now(),
-    // ),
-    // Transactions(
-    //   id: 't2',
-    //   title: 'luz',
-    //   value: 238.00,
-    //   date: DateTime.now(),
-    // ),
+    Transactions(
+      //transacao que deve sair da regra definida de transacoes
+      id: 't0',
+      title: 'antiga',
+      value: 556.00,
+      date: DateTime.now().subtract(const Duration(days: 33)),
+    ),
+    Transactions(
+      id: 't1',
+      title: 'tenis novo',
+      value: 539.00,
+      date: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    Transactions(
+      id: 't2',
+      title: 'luz',
+      value: 238.00,
+      date: DateTime.now().subtract(const Duration(days: 4)),
+    ),
   ];
+
+  List<Transactions> get _recentTransactions {
+    return _transactions.where((tr) {
+      // pega a lista de transacoes e faz um filtro
+      return tr.date!.isAfter(DateTime.now().subtract(
+        //se a data da transacao for de ate 7 dias
+        const Duration(
+            days:
+                7), // com o dateTime é possivel saber, entao retorna uma sublista
+      ));
+    }).toList();
+  }
 
   _addTransaction(String title, double value) {
     final newTransaction = Transactions(
@@ -94,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Despesas Pessoais'),
-        actions: <Widget>[
+        actions: [
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () => _openTransactionFormModal(context),
@@ -104,14 +124,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const SizedBox(
-              child: Card(
-                color: Colors.blue, //pega a cor primaria/padrao do app definida
-                elevation: 5,
-                child: Text('Grafico'),
-              ),
-            ),
+          children: [
+            SizedBox(child: Chart(_recentTransactions)),
             TransactionsList(_transactions),
           ],
         ),
