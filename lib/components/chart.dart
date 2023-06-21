@@ -25,8 +25,6 @@ class Chart extends StatelessWidget {
           totalSum += recentTransactions[i].value!;
         }
       }
-      print(DateFormat.E().format(weekDay)[0]);
-      print(totalSum);
 
       return {
         'day': DateFormat.E()
@@ -36,23 +34,35 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get _weekTotalValue {
+    return groupedTransactions.fold(0.0, (sum, tr) {
+      return sum + (tr['value'] as double);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    groupedTransactions;
     return Card(
       elevation: 6, //para destaque
       margin:
-          const EdgeInsets.all(20), //margin para destaque de cada componente
-      child: Row(
-        children: groupedTransactions.map((tr) {
-          //pega alista q é um map de chave e valor, e tr de transacao pega dia e valor
-          return ChartBar(
-            //retorna o componente com o valor, dia e a porcentagem
-            label: tr['day'] as String,
-            value: tr['value'] as double,
-            percent: 0,
-          );
-        }).toList(),
+          const EdgeInsets.all(10), //margin para destaque de cada componente
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactions.map((tr) {
+            //pega alista q é um map de chave e valor, e tr de transacao pega dia e valor
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                //retorna o componente com o valor, dia e a porcentagem
+                label: tr['day'] as String,
+                value: tr['value'] as double,
+                percent: (tr['value'] as double) / _weekTotalValue,
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
