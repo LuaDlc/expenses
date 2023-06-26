@@ -38,46 +38,26 @@ class TransactionsList extends StatelessWidget {
                   //index é o item que quero renderizar na tela
                   final tr = transactions![index];
                   return Card(
-                    child: Row(
-                      children: [
-                        Container(
-                          // o container aqui é necessario pois precisa dele pra add estilos
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 2.0,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                            'R\$ ${tr.value!.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                    elevation: 5,
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(
+                              6), //para colcoar espacamento dentro do circle
+                          child: FittedBox(
+                            // para alinhar o texto no circleavatar
+                            child: Text('R\$${tr.value}'),
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // titulo de data alinhados em uma coluna
-                          children: [
-                            Text(
-                              tr.title!,
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              DateFormat('dd/MM/yyyy').format(tr.date!),
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ), //to string pois text recebe tipo string
-                          ],
-                        )
-                      ],
+                      ),
+                      title: Text(
+                        tr.title!,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      subtitle: Text(DateFormat('d MMM y').format(tr.date!)),
                     ),
                   );
                 },
