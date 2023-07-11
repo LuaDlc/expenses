@@ -49,12 +49,29 @@ class _TransactionFormState extends State<TransactionForm> {
                 controller: valueController,
                 decoration: const InputDecoration(labelText: 'Valor (R\$)'),
               ),
+              Container(
+                  height: 70,
+                  child: Row(
+                    children: [
+                      const Text('Nenhuma transacao adicionada'),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Selecionar data',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
+                      )
+                    ],
+                  )),
               TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.amber),
+                style: TextButton.styleFrom(backgroundColor: Colors.purple),
                 onPressed: _submitForm,
                 child: const Text(
                   'Nova Transacao',
-                  style: TextStyle(color: Colors.purple),
+                  style: TextStyle(color: Colors.white),
                 ),
               )
             ],
