@@ -10,9 +10,10 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FittedBox(
-            child: Text(
-                value!.toStringAsFixed(2))), //posiciona os valores arredondados
+        Container(
+          height: 20,
+          child: FittedBox(child: Text(value!.toStringAsFixed(2))),
+        ), //posiciona os valores arredondados
         const SizedBox(height: 10),
         SizedBox(
           height: 60,
