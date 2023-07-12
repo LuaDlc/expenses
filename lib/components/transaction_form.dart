@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double) onSubmit;
@@ -10,18 +11,35 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final titleController = TextEditingController();
+  final _titleController = TextEditingController();
 
-  final valueController = TextEditingController();
+  final _valueController = TextEditingController();
+  DateTime? _selectedDate;
 
   _submitForm() {
-    final title = titleController.text;
-    final value = double.tryParse(valueController.text) ?? 0.0;
+    final title = _titleController.text;
+    final value = double.tryParse(_valueController.text) ?? 0.0;
     //validacao para nao permitir caixa vazia ou sem valores validos
     if (title.isEmpty || value <= 0) {
       return;
     }
     widget.onSubmit(title, value);
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 
 //componente parao formulario de transacoes
@@ -35,7 +53,7 @@ class _TransactionFormState extends State<TransactionForm> {
             children: <Widget>[
               TextField(
                 controller:
-                    titleController, //variaves diferentes para recebr valor e titulo
+                    _titleController, //variaves diferentes para recebr valor e titulo
                 decoration: const InputDecoration(labelText: 'Titulo'),
               ),
               TextField(
@@ -46,19 +64,23 @@ class _TransactionFormState extends State<TransactionForm> {
                     .onSubmit, //(_)-> vazio pois onsubmit nao recebe parametro
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                controller: valueController,
+                controller: _valueController,
                 decoration: const InputDecoration(labelText: 'Valor (R\$)'),
               ),
               Container(
                   height: 70,
                   child: Row(
                     children: [
-                      const Text('Nenhuma transacao adicionada'),
+                      Expanded(
+                        child: Text(_selectedDate == null
+                            ? 'Nenhuma transacao adicionada'
+                            : DateFormat('dd/MM/y').format(_selectedDate!)),
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: _showDatePicker,
                         child: const Text('Selecionar data',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
