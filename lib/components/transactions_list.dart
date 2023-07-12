@@ -6,9 +6,11 @@ import '../models/transactions.dart';
 
 class TransactionsList extends StatelessWidget {
   final List<Transactions>? transactions;
+  final void Function(String) onRemove;
 //componente para exibiicao das transacoes com dados
   const TransactionsList(
-    this.transactions, {
+    this.transactions,
+    this.onRemove, {
     Key? key,
   }) : super(key: key);
 
@@ -58,6 +60,12 @@ class TransactionsList extends StatelessWidget {
                         style: const TextStyle(color: Colors.black),
                       ),
                       subtitle: Text(DateFormat('d MMM y').format(tr.date!)),
+                      trailing: IconButton(
+                          onPressed: () => onRemove(tr.id!),
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          )),
                     ),
                   );
                 },

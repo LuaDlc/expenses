@@ -80,6 +80,16 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  _removeTransaction(String id) {
+    // essa funcoa vai ser passada como parametro dentro da lista pois é la q o usuario vai clicar pr excluir
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id
+          //com a transacao como parametro, remove a transacao
+          // se o id da tr for igual ao id passado no parametro
+          );
+    });
+  }
+
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -106,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(child: Chart(_recentTransactions)),
-            TransactionsList(_transactions),
+            TransactionsList(_transactions, _removeTransaction),
           ],
         ),
       ),
