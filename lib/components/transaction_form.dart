@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final void Function(String, double) onSubmit;
+  final void Function(String, double, DateTime) onSubmit;
 
   const TransactionForm(this.onSubmit, {Key? key}) : super(key: key);
 
@@ -14,16 +14,17 @@ class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
 
   final _valueController = TextEditingController();
-  DateTime? _selectedDate;
+  DateTime? _selectedDate = DateTime
+      .now(); //com o dateTimeNow, torna a data atual selecionada por padrao
 
   _submitForm() {
     final title = _titleController.text;
     final value = double.tryParse(_valueController.text) ?? 0.0;
     //validacao para nao permitir caixa vazia ou sem valores validos
-    if (title.isEmpty || value <= 0) {
+    if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
     }
-    widget.onSubmit(title, value);
+    widget.onSubmit(title, value, _selectedDate!);
   }
 
   _showDatePicker() {

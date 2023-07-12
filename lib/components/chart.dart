@@ -58,7 +58,8 @@ class Chart extends StatelessWidget {
                 //retorna o componente com o valor, dia e a porcentagem
                 label: tr['day'] as String,
                 value: tr['value'] as double,
-                percent: (tr['value'] as double) / _weekTotalValue,
+                percent: (_weekTotalValue == 0 ? 0 : tr['value'] as double) /
+                    _weekTotalValue,
               ),
             );
           }).toList(),

@@ -50,27 +50,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transactions> _transactions = [
-    Transactions(
-      //transacao que deve sair da regra definida de transacoes
-      id: 't0',
-      title: 'antiga',
-      value: 556.00,
-      date: DateTime.now().subtract(const Duration(days: 33)),
-    ),
-    Transactions(
-      id: 't1',
-      title: 'tenis novo',
-      value: 539.00,
-      date: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    Transactions(
-      id: 't2',
-      title: 'luz',
-      value: 238.00,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-  ];
+  final List<Transactions> _transactions = [];
 
   List<Transactions> get _recentTransactions {
     return _transactions.where((tr) {
@@ -84,13 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transactions(
       id: Random().nextDouble().toString(),
       title:
           title, //title: é o atributo e title é parametro da chamada da funcao _addTransaction
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
