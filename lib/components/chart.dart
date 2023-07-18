@@ -45,7 +45,7 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6, //para destaque
       margin:
-          const EdgeInsets.all(10), //margin para destaque de cada componente
+          const EdgeInsets.all(20), //margin para destaque de cada componente
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(

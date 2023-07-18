@@ -16,59 +16,55 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 430,
-        child: transactions!.isEmpty
-            ? Column(
-                children: <Widget>[
-                  const Text('Nenhuma transacao cadastrada'),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: Image.asset(
-                      'assets/images/waiting.png',
-                      fit: BoxFit.cover,
+    return transactions!.isEmpty
+        ? Column(
+            children: [
+              const SizedBox(height: 20),
+              const Text('Nenhuma transacao cadastrada'),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 20,
+                child: Image.asset(
+                  'assets/images/waiting.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemCount: transactions!.length, //pega cada item q esta na tela
+            itemBuilder: (ctx, index) {
+              //index é o item que quero renderizar na tela
+              final tr = transactions![index];
+              return Card(
+                elevation: 5,
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    child: Padding(
+                      padding: const EdgeInsets.all(
+                          6), //para colcoar espacamento dentro do circle
+                      child: FittedBox(
+                        // para alinhar o texto no circleavatar
+                        child: Text('R\$${tr.value}'),
+                      ),
                     ),
                   ),
-                ],
-              )
-            : ListView.builder(
-                itemCount: transactions!.length, //pega cada item q esta na tela
-                itemBuilder: (ctx, index) {
-                  //index é o item que quero renderizar na tela
-                  final tr = transactions![index];
-                  return Card(
-                    elevation: 5,
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        child: Padding(
-                          padding: const EdgeInsets.all(
-                              6), //para colcoar espacamento dentro do circle
-                          child: FittedBox(
-                            // para alinhar o texto no circleavatar
-                            child: Text('R\$${tr.value}'),
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        tr.title!,
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                      subtitle: Text(DateFormat('d MMM y').format(tr.date!)),
-                      trailing: IconButton(
-                          onPressed: () => onRemove(tr.id!),
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          )),
-                    ),
-                  );
-                },
-              ));
+                  title: Text(
+                    tr.title!,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  subtitle: Text(DateFormat('d MMM y').format(tr.date!)),
+                  trailing: IconButton(
+                      onPressed: () => onRemove(tr.id!),
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      )),
+                ),
+              );
+            },
+          );
   }
 }

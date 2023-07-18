@@ -100,23 +100,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //resizeToAvoidBottomInset: false,
+    final appBar = AppBar(
+      title: const Text('Despesas Pessoais'),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () => _openTransactionFormModal(context),
+        )
+      ],
+    );
+
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Despesas Pessoais'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _openTransactionFormModal(context),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(child: Chart(_recentTransactions)),
-            TransactionsList(_transactions, _removeTransaction),
+            SizedBox(
+              height: availableHeight * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+            SizedBox(
+              height: availableHeight * 0.7,
+              child: TransactionsList(_transactions, _removeTransaction),
+            )
           ],
         ),
       ),
@@ -125,7 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () => _openTransactionFormModal(
               context)), //vai chamar o modal/form pra permitir add transacao
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked, //centralizad o botao +
+          FloatingActionButtonLocation.centerDocked, //centeFloat
     );
+
+    //centralizad o botao +
   }
 }
