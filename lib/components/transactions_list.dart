@@ -17,19 +17,25 @@ class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions!.isEmpty
-        ? Column(
-            children: [
-              const SizedBox(height: 20),
-              const Text('Nenhuma transacao cadastrada'),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 20,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
+        ? LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                children: [
+                  SizedBox(height: constraints.maxHeight * 0.05),
+                  Container(
+                      height: constraints.maxHeight * 0.3,
+                      child: const Text('Nenhuma transacao cadastrada')),
+                  SizedBox(height: constraints.maxHeight * 0.05),
+                  SizedBox(
+                    height: constraints.maxHeight * 0.6,
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
+              );
+            },
           )
         : ListView.builder(
             itemCount: transactions!.length, //pega cada item q esta na tela
