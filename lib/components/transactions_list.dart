@@ -21,11 +21,9 @@ class TransactionsList extends StatelessWidget {
             builder: (context, constraints) {
               return Column(
                 children: [
-                  SizedBox(height: constraints.maxHeight * 0.05),
-                  Container(
-                      height: constraints.maxHeight * 0.3,
-                      child: const Text('Nenhuma transacao cadastrada')),
-                  SizedBox(height: constraints.maxHeight * 0.05),
+                  const SizedBox(height: 20),
+                  const Text('Nenhuma transacao cadastrada'),
+                  const SizedBox(height: 20),
                   SizedBox(
                     height: constraints.maxHeight * 0.6,
                     child: Image.asset(
