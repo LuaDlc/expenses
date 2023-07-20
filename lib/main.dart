@@ -101,9 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(
+        context); // uma constante com o MediQuery.of para nao tre q chama-lo mais de uma vez
     //compara o a orientacao atual com a orientacao landscape e se salva na var boleana
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     //resizeToAvoidBottomInset: false,
     final appBar = AppBar(
@@ -129,9 +130,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    final availableHeight = MediaQuery.of(context).size.height -
+    final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
