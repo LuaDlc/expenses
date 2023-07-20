@@ -46,59 +46,66 @@ class _TransactionFormState extends State<TransactionForm> {
 //componente parao formulario de transacoes
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              TextField(
-                controller:
-                    _titleController, //variaves diferentes para recebr valor e titulo
-                decoration: const InputDecoration(labelText: 'Titulo'),
-              ),
-              TextField(
-                smartQuotesType:
-                    SmartQuotesType.enabled, //permite apenas numerosf
-                //onsbmitted vai chamar a funcao pra adicionar os dados caso o usuario complete as info, direto no teclado
-                onSubmitted: (_) => widget
-                    .onSubmit, //(_)-> vazio pois onsubmit nao recebe parametro
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                controller: _valueController,
-                decoration: const InputDecoration(labelText: 'Valor (R\$)'),
-              ),
-              Container(
-                  height: 70,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(_selectedDate == null
-                            ? 'Nenhuma transacao adicionada'
-                            : DateFormat('dd/MM/y').format(_selectedDate!)),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      TextButton(
-                        onPressed: _showDatePicker,
-                        child: const Text('Selecionar data',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            )),
-                      )
-                    ],
-                  )),
-              TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.purple),
-                onPressed: _submitForm,
-                child: const Text(
-                  'Nova Transacao',
-                  style: TextStyle(color: Colors.white),
+    return SingleChildScrollView(
+      child: Card(
+          elevation: 5,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  controller:
+                      _titleController, //variaves diferentes para recebr valor e titulo
+                  decoration: const InputDecoration(labelText: 'Titulo'),
                 ),
-              )
-            ],
-          ),
-        ));
+                TextField(
+                  smartQuotesType:
+                      SmartQuotesType.enabled, //permite apenas numerosf
+                  //onsbmitted vai chamar a funcao pra adicionar os dados caso o usuario complete as info, direto no teclado
+                  onSubmitted: (_) => widget
+                      .onSubmit, //(_)-> vazio pois onsubmit nao recebe parametro
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: _valueController,
+                  decoration: const InputDecoration(labelText: 'Valor (R\$)'),
+                ),
+                Container(
+                    height: 70,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(_selectedDate == null
+                              ? 'Nenhuma transacao adicionada'
+                              : DateFormat('dd/MM/y').format(_selectedDate!)),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        TextButton(
+                          onPressed: _showDatePicker,
+                          child: const Text('Selecionar data',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                        )
+                      ],
+                    )),
+                TextButton(
+                  style: TextButton.styleFrom(backgroundColor: Colors.purple),
+                  onPressed: _submitForm,
+                  child: const Text(
+                    'Nova Transacao',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
   }
 }
