@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:expenses/components/chart.dart';
@@ -139,13 +140,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            //se a comparacao for true e estiver no modo paisagem, vai exibir o switch
+            // se a comparacao for true e estiver no modo paisagem, vai exibir o switch
             // if (isLandscape)
             //   Row(
             //     mainAxisAlignment: MainAxisAlignment.center,
             //     children: [
             //       const Text('Exibir gráfico'),
-            //       Switch(
+            //       Switch.adaptive( //.adaptative serve p/ adaptar o icone/widget á plataforma especifica
             //         value: _showChart,
             //         onChanged: (value) {
             //           setState(() {
@@ -168,10 +169,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () => _openTransactionFormModal(
-              context)), //vai chamar o modal/form pra permitir add transacao
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () => _openTransactionFormModal(
+                  context)), //vai chamar o modal/form pra permitir add transacao
       floatingActionButtonLocation:
           FloatingActionButtonLocation.centerDocked, //centeFloat
     );
