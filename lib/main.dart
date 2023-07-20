@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
@@ -100,6 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  Widget _getIconButton(IconData icon, Function() fn) {
+    return Platform.isIOS
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(onPressed: fn, icon: Icon(icon));
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(
@@ -107,77 +114,88 @@ class _MyHomePageState extends State<MyHomePage> {
     //compara o a orientacao atual com a orientacao landscape e se salva na var boleana
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    //resizeToAvoidBottomInset: false,
-    final appBar = AppBar(
+    final actions = [
+      if (isLandscape)
+        _getIconButton(_showChart ? Icons.list : Icons.show_chart, () {
+          setState(() {
+            _showChart = !_showChart;
+          });
+        }),
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        () => _openTransactionFormModal(context),
+      ),
+    ];
+
+    final PreferredSizeWidget appBar = AppBar(
       title: const Text('Despesas Pessoais'),
-      actions: [
-        //direto no app bar
-        if (isLandscape) //botao só será exibido caso esteja no modo landscape/paisagem
-          IconButton(
-              icon: Icon(_showChart
-                  ? Icons.list
-                  : Icons
-                      .pie_chart), //vai exibir um icone conforme o estado(true or false)
-              onPressed: () {
-                setState(() {
-                  _showChart =
-                      !_showChart; //sempre que clicar ele vai alternar o estado da variavel
-                });
-              }),
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () => _openTransactionFormModal(context),
-        ),
-      ],
+      actions: actions,
+
+      //resizeToAvoidBottomInset: false,
+
+      //direto no app bar
     );
 
     final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
         mediaQuery.padding.top;
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // se a comparacao for true e estiver no modo paisagem, vai exibir o switch
-            // if (isLandscape)
-            //   Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       const Text('Exibir gráfico'),
-            //       Switch.adaptive( //.adaptative serve p/ adaptar o icone/widget á plataforma especifica
-            //         value: _showChart,
-            //         onChanged: (value) {
-            //           setState(() {
-            //             _showChart = value;
-            //           });
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            if (_showChart || !isLandscape)
-              SizedBox(
-                height: availableHeight * (isLandscape ? 0.5 : 0.3),
-                child: Chart(_recentTransactions),
-              ),
-            if (!_showChart || !isLandscape)
-              SizedBox(
-                height: availableHeight * (isLandscape ? 0.5 : 0.3),
-                child: TransactionsList(_transactions, _removeTransaction),
-              ),
-          ],
-        ),
+    final bodyPage = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // se a comparacao for true e estiver no modo paisagem, vai exibir o switch
+          // if (isLandscape)
+          //   Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const Text('Exibir gráfico'),
+          //       Switch.adaptive( //.adaptative serve p/ adaptar o icone/widget á plataforma especifica
+          //         value: _showChart,
+          //         onChanged: (value) {
+          //           setState(() {
+          //             _showChart = value;
+          //           });
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          if (_showChart || !isLandscape)
+            SizedBox(
+              height: availableHeight * (isLandscape ? 0.5 : 0.3),
+              child: Chart(_recentTransactions),
+            ),
+          if (!_showChart || !isLandscape)
+            SizedBox(
+              height: availableHeight * (isLandscape ? 0.5 : 0.3),
+              child: TransactionsList(_transactions, _removeTransaction),
+            ),
+        ],
       ),
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              child: const Icon(Icons.add),
-              onPressed: () => _openTransactionFormModal(
-                  context)), //vai chamar o modal/form pra permitir add transacao
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked, //centeFloat
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: const Text('Despesas Pessoais'),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: actions,
+              ),
+            ),
+            child: bodyPage,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: bodyPage,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: const Icon(Icons.add),
+                    onPressed: () => _openTransactionFormModal(
+                        context)), //vai chamar o modal/form pra permitir add transacao
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked, //centeFloat
+          );
 
     //centralizad o botao +
   }
