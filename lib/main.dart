@@ -109,10 +109,23 @@ class _MyHomePageState extends State<MyHomePage> {
     final appBar = AppBar(
       title: const Text('Despesas Pessoais'),
       actions: [
+        //direto no app bar
+        if (isLandscape) //botao só será exibido caso esteja no modo landscape/paisagem
+          IconButton(
+              icon: Icon(_showChart
+                  ? Icons.list
+                  : Icons
+                      .pie_chart), //vai exibir um icone conforme o estado(true or false)
+              onPressed: () {
+                setState(() {
+                  _showChart =
+                      !_showChart; //sempre que clicar ele vai alternar o estado da variavel
+                });
+              }),
         IconButton(
           icon: const Icon(Icons.add),
           onPressed: () => _openTransactionFormModal(context),
-        )
+        ),
       ],
     );
 
@@ -126,21 +139,21 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //se a comparacao for true e estiver no modo paisagem, vai exibir o switch
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Exibir gráfico'),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
+            // if (isLandscape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       const Text('Exibir gráfico'),
+            //       Switch(
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
             if (_showChart || !isLandscape)
               SizedBox(
                 height: isLandscape ? availableHeight * 0.7 : 0.3,
