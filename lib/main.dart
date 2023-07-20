@@ -156,12 +156,12 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             if (_showChart || !isLandscape)
               SizedBox(
-                height: isLandscape ? availableHeight * 0.7 : 0.3,
+                height: availableHeight * (isLandscape ? 0.5 : 0.3),
                 child: Chart(_recentTransactions),
               ),
             if (!_showChart || !isLandscape)
               SizedBox(
-                height: availableHeight * 0.7,
+                height: availableHeight * (isLandscape ? 0.5 : 0.3),
                 child: TransactionsList(_transactions, _removeTransaction),
               ),
           ],
