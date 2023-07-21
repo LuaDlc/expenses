@@ -114,9 +114,13 @@ class _MyHomePageState extends State<MyHomePage> {
     //compara o a orientacao atual com a orientacao landscape e se salva na var boleana
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
+    final iconList = Platform.isIOS ? CupertinoIcons.refresh : Icons.list;
+    final chartList =
+        Platform.isIOS ? CupertinoIcons.refresh : Icons.show_chart;
+
     final actions = [
       if (isLandscape)
-        _getIconButton(_showChart ? Icons.list : Icons.show_chart, () {
+        _getIconButton(_showChart ? iconList : chartList, () {
           setState(() {
             _showChart = !_showChart;
           });
@@ -139,37 +143,41 @@ class _MyHomePageState extends State<MyHomePage> {
     final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
         mediaQuery.padding.top;
-    final bodyPage = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // se a comparacao for true e estiver no modo paisagem, vai exibir o switch
-          // if (isLandscape)
-          //   Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       const Text('Exibir gráfico'),
-          //       Switch.adaptive( //.adaptative serve p/ adaptar o icone/widget á plataforma especifica
-          //         value: _showChart,
-          //         onChanged: (value) {
-          //           setState(() {
-          //             _showChart = value;
-          //           });
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          if (_showChart || !isLandscape)
-            SizedBox(
-              height: availableHeight * (isLandscape ? 0.5 : 0.3),
-              child: Chart(_recentTransactions),
-            ),
-          if (!_showChart || !isLandscape)
-            SizedBox(
-              height: availableHeight * (isLandscape ? 0.5 : 0.3),
-              child: TransactionsList(_transactions, _removeTransaction),
-            ),
-        ],
+
+    final bodyPage = SafeArea(
+      //SAFEAREA diz exatamente qual a area segura para colocar os componentes, desconsiderando outras areas
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // se a comparacao for true e estiver no modo paisagem, vai exibir o switch
+            // if (isLandscape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       const Text('Exibir gráfico'),
+            //       Switch.adaptive( //.adaptative serve p/ adaptar o icone/widget á plataforma especifica
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
+            if (_showChart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? 0.5 : 0.3),
+                child: Chart(_recentTransactions),
+              ),
+            if (!_showChart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? 0.5 : 0.3),
+                child: TransactionsList(_transactions, _removeTransaction),
+              ),
+          ],
+        ),
       ),
     );
 
