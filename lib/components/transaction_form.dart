@@ -1,3 +1,4 @@
+import 'package:expenses/components/adaptative_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -95,13 +96,11 @@ class _TransactionFormState extends State<TransactionForm> {
                         )
                       ],
                     )),
-                TextButton(
-                  style: TextButton.styleFrom(backgroundColor: Colors.purple),
-                  onPressed: _submitForm,
-                  child: const Text(
-                    'Nova Transacao',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                Row(
+                  children: [
+                    AdaptativeButtons(
+                        label: 'Nova Transacao', onPressed: _submitForm),
+                  ],
                 )
               ],
             ),
