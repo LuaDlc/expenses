@@ -2,6 +2,8 @@ import 'package:expenses/components/adaptative_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'adaptative_text_fields.dart';
+
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
 
@@ -59,21 +61,20 @@ class _TransactionFormState extends State<TransactionForm> {
             ),
             child: Column(
               children: <Widget>[
-                TextField(
-                  controller:
-                      _titleController, //variaves diferentes para recebr valor e titulo
-                  decoration: const InputDecoration(labelText: 'Titulo'),
+                AdaptativeTextFields(
+                  controller: _titleController,
+                  //variaves diferentes para recebr valor e titulo
+                  onSubmitted: (_) => _submitForm(),
+                  label: 'Titulo',
                 ),
-                TextField(
-                  smartQuotesType:
-                      SmartQuotesType.enabled, //permite apenas numerosf
+                AdaptativeTextFields(
+                  label: 'Valor (R\$)',
                   //onsbmitted vai chamar a funcao pra adicionar os dados caso o usuario complete as info, direto no teclado
                   onSubmitted: (_) => widget
                       .onSubmit, //(_)-> vazio pois onsubmit nao recebe parametro
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   controller: _valueController,
-                  decoration: const InputDecoration(labelText: 'Valor (R\$)'),
                 ),
                 Container(
                     height: 70,
@@ -99,7 +100,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 Row(
                   children: [
                     AdaptativeButtons(
-                        label: 'Nova Transacao', onPressed: _submitForm),
+                        label: 'Nova Transação', onPressed: _submitForm),
                   ],
                 )
               ],
