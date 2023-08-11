@@ -33,6 +33,10 @@ class Expenses extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
+            labelLarge: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
@@ -148,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //SAFEAREA diz exatamente qual a area segura para colocar os componentes, desconsiderando outras areas
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // se a comparacao for true e estiver no modo paisagem, vai exibir o switch
             // if (isLandscape)
@@ -168,12 +172,12 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             if (_showChart || !isLandscape)
               SizedBox(
-                height: availableHeight * (isLandscape ? 0.5 : 0.3),
+                height: availableHeight * (isLandscape ? 0.8 : 0.3),
                 child: Chart(_recentTransactions),
               ),
             if (!_showChart || !isLandscape)
               SizedBox(
-                height: availableHeight * (isLandscape ? 0.5 : 0.3),
+                height: availableHeight * (isLandscape ? 1 : 0.7),
                 child: TransactionsList(_transactions, _removeTransaction),
               ),
           ],
@@ -202,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () => _openTransactionFormModal(
                         context)), //vai chamar o modal/form pra permitir add transacao
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked, //centeFloat
+                FloatingActionButtonLocation.centerFloat, //centeFloat
           );
 
     //centralizad o botao +

@@ -22,7 +22,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
   _submitForm() {
     final title = _titleController.text;
-    final value = double.tryParse(_valueController.text) ?? 0.0;
+    final value = double.tryParse(_valueController.text) ?? 0;
     //validacao para nao permitir caixa vazia ou sem valores validos
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
@@ -44,18 +44,18 @@ class _TransactionFormState extends State<TransactionForm> {
               bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
             ),
             child: Column(
-              children: <Widget>[
+              children: [
                 AdaptativeTextFields(
                   controller: _titleController,
                   //variaves diferentes para recebr valor e titulo
-                  onSubmitted: (_) => _submitForm(),
+                  onSubmitted: (_) => _submitForm,
                   label: 'Titulo',
                 ),
                 AdaptativeTextFields(
                   label: 'Valor (R\$)',
                   //onsbmitted vai chamar a funcao pra adicionar os dados caso o usuario complete as info, direto no teclado
-                  onSubmitted: (_) => widget
-                      .onSubmit, //(_)-> vazio pois onsubmit nao recebe parametro
+                  onSubmitted: (_) => _submitForm,
+                  //(_)-> vazio pois onsubmit nao recebe parametro
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   controller: _valueController,
@@ -69,6 +69,7 @@ class _TransactionFormState extends State<TransactionForm> {
                       });
                     }),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     AdaptativeButtons(
                         label: 'Nova Transação', onPressed: _submitForm),

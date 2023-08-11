@@ -7,11 +7,12 @@ import 'package:intl/intl.dart';
 
 class AdaptativeDatePicker extends StatelessWidget {
   final DateTime? selectedDate;
-  final Function(DateTime) onDateChange;
-  AdaptativeDatePicker({
+  final Function(DateTime)? onDateChange;
+
+  const AdaptativeDatePicker({
     Key? key,
-    required this.selectedDate,
-    required this.onDateChange,
+    this.selectedDate,
+    this.onDateChange,
   }) : super(key: key);
 
   _showDatePicker(BuildContext context) {
@@ -24,7 +25,7 @@ class AdaptativeDatePicker extends StatelessWidget {
       if (pickedDate == null) {
         return;
       }
-      onDateChange(pickedDate);
+      onDateChange ?? (pickedDate);
     });
   }
 
@@ -34,24 +35,21 @@ class AdaptativeDatePicker extends StatelessWidget {
         ? SizedBox(
             height: 180,
             child: CupertinoDatePicker(
-              onDateTimeChanged: onDateChange,
+              onDateTimeChanged: onDateChange!,
               mode: CupertinoDatePickerMode.date,
               initialDateTime: DateTime.now(),
               minimumDate: DateTime(2019),
               maximumDate: DateTime.now(),
             ),
           )
-        : Container(
+        : SizedBox(
             height: 70,
             child: Row(
               children: [
-                Expanded(
-                  child: Text(selectedDate == null
+                Text(
+                  selectedDate == null
                       ? 'Nenhuma transacao adicionada'
-                      : DateFormat('dd/MM/y').format(selectedDate!)),
-                ),
-                const SizedBox(
-                  width: 10,
+                      : 'Data selecionada: ${DateFormat('dd/MM/y').format(selectedDate!)}',
                 ),
                 TextButton(
                   onPressed: () => _showDatePicker(context),

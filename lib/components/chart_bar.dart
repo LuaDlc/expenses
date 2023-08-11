@@ -8,18 +8,19 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
+    return LayoutBuilder(builder: (ctx, constraints) {
       return Column(
         children: [
           SizedBox(
             height: constraints.maxHeight * 0.15,
             child: FittedBox(child: Text(value!.toStringAsFixed(2))),
           ), //posiciona os valores arredondados
-          const SizedBox(height: 10),
+          SizedBox(height: constraints.maxHeight * 0.05),
           SizedBox(
             height: constraints.maxHeight * 0.6,
             width: 10, // coloca altura e largura no componente do grafico
             child: Stack(
+              alignment: Alignment.bottomCenter,
               children: [
                 Container(
                   decoration: BoxDecoration(
@@ -30,21 +31,22 @@ class ChartBar extends StatelessWidget {
                       color: const Color.fromRGBO(220, 220, 220, 1),
                       borderRadius: BorderRadius.circular(5)),
                 ),
-                SizedBox(
-                    height: constraints.maxHeight * 0.5,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.purple,
-                            width: 0.5,
-                          ),
-                          borderRadius: BorderRadius.circular(5)),
-                    ))
+                FractionallySizedBox(
+                  heightFactor: percent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.purple,
+                      ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
           SizedBox(height: constraints.maxHeight * 0.5),
-          Container(
+          SizedBox(
             height: constraints.maxHeight * 0.15,
             child: FittedBox(child: Text(label!)),
           ),

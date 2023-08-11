@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 class Chart extends StatelessWidget {
   final List<Transactions> recentTransactions;
+
   const Chart(
     this.recentTransactions, {
     super.key,
@@ -47,7 +48,7 @@ class Chart extends StatelessWidget {
       margin:
           const EdgeInsets.all(20), //margin para destaque de cada componente
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupedTransactions.map((tr) {
